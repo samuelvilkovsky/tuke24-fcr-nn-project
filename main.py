@@ -3,6 +3,7 @@ import numpy as np
 import os
 import pickle
 import face_recognition
+import cvzone
 
 # 1. PART - Set camera settings and start capturing video
 cap = cv2.VideoCapture(0);
@@ -56,6 +57,11 @@ while True:
 
         if matches[matchIndex]:
             print("Known face detected. Student ID: ", studentIds[matchIndex])
+            # show the rectangle around the face
+            y1, x2, y2, x1 = faceLoc # Get the face locations
+            y1, x2, y2, x1 = y1*4, x2*4, y2*4, x1*4
+            bbox = 55 + x1, 162 + y1, x2 - x1, y2 - y1
+            imgBackground = cvzone.cornerRect(imgBackground, bbox, rt=0)
 
     cv2.imshow("Face Attendance", imgBackground) # Show the background image
     cv2.waitKey(1)
